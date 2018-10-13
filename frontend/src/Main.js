@@ -15,7 +15,7 @@ class Main extends Component {
 					<Route exact path='/' render={(props) => (
 						<div>
 			 				<NavBar />
-							<Home {...props}/>
+							<Home {...props} responseFacebook={this.props.responseFacebook}/>
 						</div> 
 					)}/>
 					<Route exact path='/candidates' render={(props) => (
