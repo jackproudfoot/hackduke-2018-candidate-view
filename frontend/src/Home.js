@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import Main from './Main.js'
-
 class App extends Component {
   render() {
     return (
-      <Main />
+      <div>
+        <button className="uk-button uk-button-default">Hello</button>
+      </div>
     );
   }
 }
