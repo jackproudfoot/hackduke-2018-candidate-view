@@ -25,7 +25,7 @@ class Main extends Component {
 							<Candidates {...props}/>
 						</div> 
 					)}/>
-					<Route exact path='/aboutus' render={(props) => (
+					<Route exact path='/about' render={(props) => (
 						<div>
 			 				<NavBar />
 							<AboutUs {...props}/>
