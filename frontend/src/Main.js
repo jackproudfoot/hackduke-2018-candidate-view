@@ -9,14 +9,14 @@ import NotFound from './NotFound.js'
 
 class Main extends Component {
 	render() {
-		
+        
 		return (
 			<main>
 				<Switch>
 					<Route exact path='/' render={(props) => (
 						<div>
 			 				<NavBar />
-							<Home {...props} responseFacebook={this.props.responseFacebook}/>
+							<Home {...props} user={this.props.user} responseFacebook={this.props.responseFacebook}/>
 						</div> 
 					)}/>
 					<Route exact path='/candidates' render={(props) => (

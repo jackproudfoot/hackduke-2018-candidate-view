@@ -5,12 +5,13 @@ import Main from './Main.js'
 class App extends Component {
     state = {user: undefined}
     
-    responseFacebook = (response) => {
-        console.log(response);
-        this.setState({user: response})
+    responseFacebook = (user) => {
+        console.log(user);
+        this.setState({user: user})
     }
   
-  render() {
+  render() {  
+      
     return (
       <Main user={this.state.user} responseFacebook={this.responseFacebook}/>
     );
