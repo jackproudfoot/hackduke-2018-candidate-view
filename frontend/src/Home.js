@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login'
 
+<<<<<<< HEAD
 
 class Home extends Component {
     
