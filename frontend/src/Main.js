@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home.js'
 import NavBar from './NavBar.js'
 import Candidates from './Candidates.js'
+import AboutUs from './AboutUs.js'
 import NotFound from './NotFound.js'
 
 class Main extends Component {
@@ -22,6 +23,12 @@ class Main extends Component {
 						<div>
 			 				<NavBar />
 							<Candidates {...props}/>
+						</div> 
+					)}/>
+					<Route exact path='/aboutus' render={(props) => (
+						<div>
+			 				<NavBar />
+							<AboutUs {...props}/>
 						</div> 
 					)}/>
 					<Route component={NotFound} />
