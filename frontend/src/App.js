@@ -3,13 +3,17 @@ import React, { Component } from 'react';
 import Main from './Main.js'
 
 class App extends Component {
-    responseFacebook = (response) => {
-        console.log(response);
+    state = {user: undefined}
+    
+    responseFacebook = (user) => {
+        console.log(user);
+        this.setState({user: user})
     }
   
-  render() {
+  render() {  
+      
     return (
-      <Main responseFacebook={this.responseFacebook}/>
+      <Main user={this.state.user} responseFacebook={this.responseFacebook}/>
     );
   }
 }
