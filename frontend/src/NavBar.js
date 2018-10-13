@@ -8,7 +8,7 @@ class NavBar extends Component {
                 <ul className="uk-navbar-nav">
                     <li className="uk-active"><a href="/">Home</a></li>
                     <li className="uk-parent"><a href="/candidates">Candidates</a></li>
-                    <li className="uk-parent"><a href="">About Us</a></li>
+                    <li className="uk-parent"><a href="aboutus">About Us</a></li>
                     <li><a href=""></a></li>
                 </ul>
             </div>
