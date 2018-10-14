@@ -74,9 +74,7 @@ class Candidates extends Component {
                     <Grid item xs={10}>
                         <Grid container justify="flex-start">
                             {candidates}
-                            {candidates}
-                            {candidates}
-                            {candidates}
+                            
                         </Grid>
                     </Grid>
                 </Grid>

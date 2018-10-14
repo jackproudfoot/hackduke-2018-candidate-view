@@ -45,7 +45,8 @@ db.once('open', function() {
         party: String,
         picture: String,
         approval: Number,
-        ratings: Array
+        ratings: Array,
+        numberOfRatings: Number
 	});
 	const Candidate = mongoose.model('Candidate', candidateSchema);
 	
@@ -61,18 +62,19 @@ db.once('open', function() {
 	});
 	const Category = mongoose.model('Category', categorySchema);
 
-    /*var newCandidate = new Candidate({
+   /* var newCandidate = new Candidate({
 		name: "Carmen Aida Lazo",
         age: 32,
         position: "Vice President",
         party: "Republican",
         picture: "./img/CarmenAidaLazo-VicePresident.png",
-        approval: 3,
+        approval: 2,
         ratings: [
             {category: "5bc334fcb61d9d84d35d17e9", ranking: 2}, 
             {category: "5bc334fcb61d9d84d35d17ea", ranking: 2}, 
             {category: "5bc334fcb61d9d84d35d17eb", ranking: 2}
-        ]
+        ],
+        numberOfRatings: 1
 	});
 
 	newCandidate.save(function(err, newU) {
