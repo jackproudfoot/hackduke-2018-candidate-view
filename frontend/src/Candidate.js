@@ -13,10 +13,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 
 
-import Radio from '@material-ui/core/Radio';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { withStyles } from '@material-ui/core/styles';
+
+import CategoryRating from './CategoryRating'
 
 const styles = {
   root: {
@@ -80,6 +81,22 @@ class Candidate extends Component {
         return hex
     }
     
+    rate = () => {
+        var newRatings = this.state.ratings;
+        if (newRatings.length === 0) {
+            for (var i = 0; i < this.props.categories.length; i++) {
+                newRatings.push({category: this.props.categories[i].id, rating: 2})
+            }
+        }
+        this.setState({ratings: newRatings, rating: true})
+    }
+    
+    handleChange = (e, category) => {
+        var newRatings = this.state.ratings;
+        newRatings.find(obj => obj.category === category).rating = parseInt(e.target.value);
+        this.setState({ ratings: newRatings })
+    }
+    
     saveRating = () => {
         this.setState({rating: false})
     }
@@ -94,32 +111,32 @@ class Candidate extends Component {
         
         //Calculate Candidate Rating
         var candidateRanking = undefined;
-        if (this.props.user !== undefined) {
-            var candidateRankings = this.props.userRatings;
+        if (this.state.ratings.length > 0) {
+            var candidateRankings = this.state.ratings;
             
             //If the user has ranked the candidate
             if (candidateRankings !== undefined) {
-                candidateRankings = candidateRankings.ratings;
                 
                 candidateRanking = 0;
                
                 for (var i = 0; i < candidateRankings.length; i++) {
                     candidateRanking = candidateRanking + candidateRankings[i].rating;
                 }
-                candidateRanking = (candidateRanking / candidateRankings.length) | 0;
+               
+               candidateRanking = (candidateRanking / candidateRankings.length);
             }
         }
             
         
         var overallRatingColor = "#" + this.calculateRatingColor(this.props.data.approval);
-        var userRatingColor = "#" + this.calculateRatingColor(this.state.userRating !== undefined ? this.state.userRating : 0);
+        var userRatingColor = "#" + this.calculateRatingColor(candidateRanking !== undefined ? candidateRanking : 0);
         
         var userRating;
         if (candidateRanking !== undefined) {
             userRating = (
                 <div>
                     <Typography variant="subtitle1">Your Approval Rating</Typography>
-                    <Typography variant="h3" style={{color: userRatingColor}}>{candidateRanking / .05}%</Typography>
+                <Typography variant="h3" style={{color: userRatingColor}}>{(candidateRanking / .04) | 0}%</Typography>
                 </div>
             )
         }
@@ -139,37 +156,18 @@ class Candidate extends Component {
                     ratingScales.push(
                         <div key={category.value}>
                             <Typography className={this.props.classes.bartitle} variant="body2">{categoryName}</Typography>
-                            <LinearProgress variant="determinate" value={this.props.data.ratings[category.value].ranking / .05} className={this.props.classes.bar}/>
+                            <LinearProgress variant="determinate" value={(this.props.data.ratings[category.value].ranking / .04) | 0} className={this.props.classes.bar}/>
                         </div>
                     )
                     
                     if (this.state.ratings.length > 0) {
+                        
+                        var categoryRating = this.state.ratings.find(obj => obj.category === category.value).rating;
                         userRatingScales.push(
                             <div key={category.value}>
                                 <Typography className={this.props.classes.bartitle} variant="body2">{categoryName}</Typography>
                                 
-                                <Grid container justify="center">
-                                    <Grid item xs={2}>
-                                        <div style={{fontSize: 10}}>Very Bad</div>
-                                        <Radio checked={category.value === 1} value={"1"} />
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <div style={{fontSize: 10}}>Bad</div>
-                                        <Radio checked={category.value === 2} value={"2"} />
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <div style={{fontSize: 10}}>Moderate</div>
-                                        <Radio checked={category.value === 3} value={"3"} />
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <div style={{fontSize: 10}}>Good</div>
-                                        <Radio checked={category.value === 4} value={"4"} />
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <div style={{fontSize: 10}}>Very Good</div>
-                                        <Radio checked={category.value === 5} value={"5"} />
-                                    </Grid>
-                                </Grid>
+                                <CategoryRating category={category.value} categoryRating={categoryRating} handleChange={this.handleChange}/>
                             </div>
                         )
                     }
@@ -190,7 +188,7 @@ class Candidate extends Component {
                                 <Typography variant="h5">{this.props.data.position}</Typography>
                                 
                                 <Typography variant="subtitle1">Approval Rating</Typography>
-                                <Typography variant="h3" style={{color: overallRatingColor}}>{this.props.data.approval / .05}%</Typography>
+                                <Typography variant="h3" style={{color: overallRatingColor}}>{(this.props.data.approval / .04) | 0}%</Typography>
                                 
                             </Grid>
                         </Grid>
@@ -204,7 +202,7 @@ class Candidate extends Component {
                 >
                     
                     <Grid container justify="center" align="center">
-                        <Grid item xs={10}>
+                        <Grid item xs={11}>
                             <Avatar className={this.props.classes.avatar} src={this.props.data.picture} alt={this.props.data.name}/>
                             <Typography variant="h3">{this.props.data.name}</Typography>
                                 
@@ -229,18 +227,18 @@ class Candidate extends Component {
                             {userRating}  
                                 
                             <Typography variant="subtitle1">Overall Approval Rating</Typography>
-                            <Typography variant="h3" style={{color: overallRatingColor}}>{this.props.data.approval / .05}%</Typography> 
+                            <Typography variant="h3" style={{color: overallRatingColor}}>{(this.props.data.approval / .04) | 0}%</Typography> 
                             <br />
                         
                         
                             {!this.state.rating ? 
                                 (ratingScales.length > 0 ? (
                                     <div>
-                                        <Typography variant="subtitle1">Categories</Typography>
+                                        <Typography variant="subtitle1">Overall Category Ratings</Typography>
                                         {ratingScales}
                                         
                                         <br />
-                                        <Button variant="outlined" onClick={() => this.setState({rating: true})}>Rate Candidate</Button>
+                                        <Button variant="outlined" onClick={() => this.rate()}>Rate Candidate</Button>
                             
                                     </div>
                                 ) : null)
