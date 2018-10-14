@@ -6,7 +6,7 @@ class Home extends Component {
         
     return (
         <div>
-            {this.props.user == undefined ? 
+            {this.props.user === undefined ? 
                 <FacebookLogin
                     appId="354049905333802"
                     autoLoad={true}
