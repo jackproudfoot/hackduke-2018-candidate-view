@@ -61,12 +61,10 @@ class NavBar extends Component {
               <AppBar position="fixed" className={classes.appbar}>
                   <Toolbar>
                       <Typography variant="h5" color="inherit" className={classes.grow}>
-                          <a className={classes.normal} href="https://www.oxfamamerica.org/">Oxfam</a>
+                          <a className={classes.normal} href="/">Representative Candidates</a>
                       </Typography>
-                    
-                      <Link to="/" style={{textDecoration: 'none'}}><div className={this.props.active === 'home' ? classes.active : classes.normal}>Home</div></Link>
+                          
                       <Link to="/candidates" style={{textDecoration: 'none'}}><div className={this.props.active === 'candidates' ? classes.active : classes.normal}>Candidates</div></Link>
-                      <Link to="/about" style={{textDecoration: 'none'}}><div className={this.props.active === 'about' ? classes.active : classes.normal}>About</div></Link>
                       
                       {login}
                   </Toolbar>
