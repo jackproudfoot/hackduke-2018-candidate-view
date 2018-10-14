@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import { withStyles } from '@material-ui/core/styles';
+
+import GridList from '@material-ui/core/GridList'
 
 import Candidate from './Candidate.js'
+
+const styles = {
+  root: {
+      flexGrow: 1,
+      margin: 10
+  },
+}
 
 class Candidates extends Component {
     state = {candidates: []}
@@ -18,16 +30,21 @@ class Candidates extends Component {
     render() {
         var candidates = []
         for (var i = 0; i < this.state.candidates.length; i++) {
-            candidates.push(<Candidate key={i} data={this.state.candidates[i]} />);
+            candidates.push(<Candidate key={i} data={this.state.candidates[i]} data-uk-toggle={"target: #" + i}/>);
         }
         
         return (
-            <div className="uk-child-width-1-3@m uk-margin uk-grid-small uk-text-center" data-uk-grid data-uk-scrollspy="cls: uk-animation-fade; target: > div > .uk-card; delay: 200; repeat: true">
-                {candidates}
+            <div className={this.props.classes.root}>
+                <GridList cols={3}>
+                    {candidates}
+                </GridList>
             </div>
-        );
-  
-  }
+        )
+    }
 }
 
-export default Candidates;
+Candidates.propTypes = {
+	classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Candidates);

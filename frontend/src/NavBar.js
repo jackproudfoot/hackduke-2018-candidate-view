@@ -1,24 +1,67 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router'
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  normal: {
+      color: 'black',
+      textDecoration: 'none',
+      margin: 10
+  },
+  active: {
+      color: '#6B7BA8',
+      textDecoration: 'none',
+      margin: 10
+  },
+  appbar: {
+      backgroundColor: 'white'
+  }
+};
 
 class NavBar extends Component {
   render() {
-    return (
-        <nav className="uk-navbar-container" uk-navbar="true">
-            <div className="uk-navbar-left">
-                <ul className="uk-navbar-nav">
-                    <a className="uk-navbar-item uk-logo" href="https://www.oxfamamerica.org/">Oxfam</a>
-                    <li className = {window.location.href === 'http://localhost:3000/' ? "uk-active" : "uk-parent"}><a href="/">Home</a></li>
-                    <li className = {window.location.href === 'http://localhost:3000/candidates' ? "uk-active" : "uk-parent"}><a href="/candidates">Candidates</a></li>
-                    <li className = {window.location.href === 'http://localhost:3000/about' ? "uk-active" : "uk-parent"}><a href="/about">About Us</a></li>
-                </ul>
-            </div>
-        </nav>
-    );
-  }
+      const { classes } = this.props;
+      
+      return (
+          <div className={classes.root}>
+              <AppBar position="static" className={classes.appbar}>
+                  <Toolbar>
+                      <Typography variant="title" color="inherit" className={classes.grow}>
+                          <a className={classes.normal} href="https://www.oxfamamerica.org/">Oxfam</a>
+                      </Typography>
+                    
+                      <Link to="/" style={{textDecoration: 'none'}}><div className={this.props.active === 'home' ? classes.active : classes.normal}>Home</div></Link>
+                      <Link to="/candidates" style={{textDecoration: 'none'}}><div className={this.props.active === 'candidates' ? classes.active : classes.normal}>Candidates</div></Link>
+                      <Link to="/about" style={{textDecoration: 'none'}}><div className={this.props.active === 'about' ? classes.active : classes.normal}>About</div></Link>
+                  </Toolbar>
+              </AppBar>
+          </div>
+        );
+    }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
+export default withRouter(withStyles(styles, { withTheme: true })(NavBar));
 
 
 
