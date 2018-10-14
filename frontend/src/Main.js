@@ -15,19 +15,19 @@ class Main extends Component {
 				<Switch>
 					<Route exact path='/' render={(props) => (
 						<div>
-			 				<NavBar active='home'/>
-							<Home {...props} user={this.props.user} responseFacebook={this.props.responseFacebook}/>
+			 				<NavBar active='home' user={this.props.user} responseFacebook={this.props.responseFacebook}/>
+							<Home {...props} user={this.props.user}/>
 						</div> 
 					)}/>
 					<Route exact path='/candidates' render={(props) => (
 						<div>
-			 				<NavBar active='candidates' />
-							<Candidates {...props}/>
+			 				<NavBar active='candidates' user={this.props.user} responseFacebook={this.props.responseFacebook}/>
+							<Candidates user={this.props.user} {...props}/>
 						</div> 
 					)}/>
 					<Route exact path='/about' render={(props) => (
 						<div>
-			 				<NavBar active='about'/>
+			 				<NavBar active='about' user={this.props.user} responseFacebook={this.props.responseFacebook}/>
 							<AboutUs {...props}/>
 						</div> 
 					)}/>

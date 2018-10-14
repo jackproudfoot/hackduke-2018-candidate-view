@@ -8,6 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router'
 
+import Button from '@material-ui/core/Button'
+
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -38,6 +42,20 @@ class NavBar extends Component {
   render() {
       const { classes } = this.props;
       
+      var login;
+      if (this.props.user === undefined) {
+          login = <FacebookLogin
+                          appId="354049905333802"
+                          autoLoad={true}
+                          fields="name,email"
+                          onClick={this.componentClicked}
+                          callback={this.props.responseFacebook}
+                          render={renderProps => (
+                              <Button onClick={renderProps.onClick} style={{textDecoration: 'none', color: 'white', backgroundColor: '#6B7BA8', margin: 10}}>Login</Button>
+                          )}
+                      />
+      }
+      
       return (
           <div className={classes.root}>
               <AppBar position="fixed" className={classes.appbar}>
@@ -49,6 +67,8 @@ class NavBar extends Component {
                       <Link to="/" style={{textDecoration: 'none'}}><div className={this.props.active === 'home' ? classes.active : classes.normal}>Home</div></Link>
                       <Link to="/candidates" style={{textDecoration: 'none'}}><div className={this.props.active === 'candidates' ? classes.active : classes.normal}>Candidates</div></Link>
                       <Link to="/about" style={{textDecoration: 'none'}}><div className={this.props.active === 'about' ? classes.active : classes.normal}>About</div></Link>
+                      
+                      {login}
                   </Toolbar>
               </AppBar>
           </div>

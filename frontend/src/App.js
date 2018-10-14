@@ -7,7 +7,14 @@ class App extends Component {
     
     responseFacebook = (user) => {
         console.log(user);
-        this.setState({user: user})
+        
+        var tempdata = {
+            ratings: [
+                {candidate: 0, ratings: [{category: 0, rating: 4}, {category: 1, rating: 2}, {category: 2, rating: 5}]},
+                {candidate: 2, ratings: [{category: 0, rating: 3}, {category: 1, rating: 1}, {category: 2, rating: 2}]}
+            ]
+        }
+        this.setState({user: tempdata})
     }
   
   render() {  
