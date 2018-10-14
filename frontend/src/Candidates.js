@@ -19,9 +19,9 @@ class Candidates extends Component {
     
     componentDidMount() {
         this.setState({candidates: [
-            {name: "Jack Proudfoot", age: 45, position: "President", party: "Democrat", picture: "./img/mauriciofunes.png", approval: 5},
-            {name: "Eddy Lin", age: 45, position: "Senator", party: "Republican", picture: "./img/mauriciofunes.png", approval: 3},
-            {name: "Siddarth Madala", position: "Mayor", party: "Independent", age: 45, picture: "./img/mauriciofunes.png", approval: 1},
+            {id: 0, name: "Jack Proudfoot", age: 45, position: "President", party: "Democrat", picture: "./img/mauriciofunes.png", approval: 5},
+            {id: 1, name: "Eddy Lin", age: 45, position: "Senator", party: "Republican", picture: "./img/mauriciofunes.png", approval: 3},
+            {id: 2, name: "Siddarth Madala", position: "Mayor", party: "Independent", age: 45, picture: "./img/mauriciofunes.png", approval: 1},
         ]});
         
     }
