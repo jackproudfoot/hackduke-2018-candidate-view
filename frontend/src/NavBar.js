@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router'
@@ -41,9 +40,9 @@ class NavBar extends Component {
       
       return (
           <div className={classes.root}>
-              <AppBar position="static" className={classes.appbar}>
+              <AppBar position="fixed" className={classes.appbar}>
                   <Toolbar>
-                      <Typography variant="title" color="inherit" className={classes.grow}>
+                      <Typography variant="h5" color="inherit" className={classes.grow}>
                           <a className={classes.normal} href="https://www.oxfamamerica.org/">Oxfam</a>
                       </Typography>
                     
