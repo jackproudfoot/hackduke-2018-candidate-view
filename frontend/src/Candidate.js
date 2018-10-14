@@ -79,7 +79,7 @@ class Candidate extends Component {
                                 <Typography variant="h5">{this.props.data.position}</Typography>
                                 
                                 <Typography variant="subtitle1">Approval Rating</Typography>
-                                <Typography variant="h3" style={{color: "#" +this.calculateRatingColor(this.props.data.approval)}}>{this.props.data.approval}</Typography>
+                                <Typography variant="h3" style={{color: "#" +this.calculateRatingColor(this.props.data.approval)}}>{this.props.data.approval / .05}%</Typography>
                                 
                             </Grid>
                         </Grid>
@@ -108,7 +108,7 @@ class Candidate extends Component {
                         <Typography variant="subtitle1" align="left">Position: {this.props.data.position}</Typography>
                                  
                         <Typography variant="subtitle1">Approval Rating</Typography>
-                        <Typography variant="h3" style={{color: "#" +this.calculateRatingColor(this.props.data.approval)}}>{this.props.data.approval}</Typography>
+                        <Typography variant="h3" style={{color: "#" +this.calculateRatingColor(this.props.data.approval)}}>{this.props.data.approval / .05}%</Typography>
                     </DialogContent>
                     
                     <DialogActions>
