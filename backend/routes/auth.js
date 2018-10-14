@@ -1,30 +1,44 @@
 var express = require('express');
 var router = express.Router();
 
-//var firebase = require('firebase')
 var admin = require('./../modules/firebase.js').admin;
-var db = require('./../modules/firebase.js').db;
 
-//Facebook authentication setup
-var provider = new admin.auth.FacebookAuthProvider();
-admin.auth().useDeviceLanguage();
+var mongoose = require('mongoose')
 
+router.post('/', function(req, res, next) {
+    var credential = admin.auth.FacebookAuthProvider.credential(req.body.accessToken);
 
-router.get('/', function(req, res, next) {
-    admin.auth().signInWithPopup(provider).then(function(result) {
-        //Facebook access token
-        var token = result.credential.accessToken;
-        var user = result.user;
-        console.log(user)
-    }).catch(function(error) {
+    admin.auth().signInAndRetrieveDataWithCredential(credential).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         var email = error.email;
-        var credential = error.credential
-        console.log(error)
+        var credential = error.credential;
     })
-    
-    res.send('respond with a resource');
+    .then(response => {
+        var uid = admin.auth().currentUser.uid;
+        
+        var User = mongoose.model('User');
+	
+        User.findOne({ uid: uid }, function(err, user) {
+            if (err) return console.error(err);
+            
+            if (user === null) {
+                var newUser = new User({
+        		    uid: uid,
+        			ratings: [],
+        			admin: false
+        		});
+			
+        		newUser.save(function(err, newU) {
+        			if (err) return console.error(err);
+        			res.json(newU)
+        		});
+        	}
+        	else {
+        		res.json(user);
+        	}
+        });
+    })
 });
 
 module.exports = router;

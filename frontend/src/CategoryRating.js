@@ -7,8 +7,6 @@ import Grid from '@material-ui/core/Grid'
 
 import Radio from '@material-ui/core/Radio';
 
-import Candidate from './Candidate.js'
-
 const styles = {
   root: {
       display: 'flex',

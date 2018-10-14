@@ -63,10 +63,6 @@ class Candidate extends Component {
     handleClickOpen = () => {
         this.setState({ open: true });
     };
-
-    handleClose = () => {
-        this.setState({ open: false, rating: false });
-    };
     
     calculateRatingColor = (rating) => {  
         
@@ -85,7 +81,7 @@ class Candidate extends Component {
         var newRatings = this.state.ratings;
         if (newRatings.length === 0) {
             for (var i = 0; i < this.props.categories.length; i++) {
-                newRatings.push({category: this.props.categories[i].id, rating: 2})
+                newRatings.push({category: this.props.categories[i]._id, rating: 2})
             }
         }
         this.setState({ratings: newRatings, rating: true})
@@ -93,11 +89,35 @@ class Candidate extends Component {
     
     handleChange = (e, category) => {
         var newRatings = this.state.ratings;
-        newRatings.find(obj => obj.category === category).rating = parseInt(e.target.value);
+        
+        
+        newRatings.find(obj => obj.category === category.category).rating = parseInt(e.target.value);
         this.setState({ ratings: newRatings })
     }
     
+    uploadData = () => {
+        
+        fetch(('/api/ratings'), {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({candidate: this.props.data._id, ratings: this.state.ratings})
+        })
+        .then(res => res.json())
+        .then(res => {
+        	console.log(res)
+        });
+    }
+    
+    handleClose = () => {
+        this.uploadData();
+        this.setState({ open: false, rating: false });
+    };
+    
     saveRating = () => {
+        this.uploadData();
         this.setState({rating: false})
     }
     
@@ -146,32 +166,32 @@ class Candidate extends Component {
         var userRatingScales = [];
         if (this.props.categories.length > 0) {
             if (this.props.data !== undefined && this.props.data.ratings.length > 0) {
-                var keys = this.props.data.ratings.keys()
-                var category = keys.next()
+                var ratings = this.props.data.ratings
+                //var ratings = this.state.ratings
+
+                for (var i = 0; i < ratings.length; i++) {
+                    var categoryName = this.props.categories.find(obj => obj._id === ratings[i].category).category
                 
-                while(!category.done) {
-                    var categoryName = this.props.categories.find(obj => obj.id === category.value).category;
+                    //console.log(this.props.userRatings)
                 
+                    //console.log(this.state.ratings)
                     
                     ratingScales.push(
-                        <div key={category.value}>
+                        <div key={ratings[i].category}>
                             <Typography className={this.props.classes.bartitle} variant="body2">{categoryName}</Typography>
-                            <LinearProgress variant="determinate" value={(this.props.data.ratings[category.value].ranking / .04) | 0} className={this.props.classes.bar}/>
+                            <LinearProgress variant="determinate" value={(ratings[i].ranking / .04) | 0} className={this.props.classes.bar}/>
                         </div>
                     )
                     
                     if (this.state.ratings.length > 0) {
-                        
-                        var categoryRating = this.state.ratings.find(obj => obj.category === category.value).rating;
                         userRatingScales.push(
-                            <div key={category.value}>
+                            <div key={ratings[i].category}>
                                 <Typography className={this.props.classes.bartitle} variant="body2">{categoryName}</Typography>
                                 
-                                <CategoryRating category={category.value} categoryRating={categoryRating} handleChange={this.handleChange}/>
+                                <CategoryRating category={ratings[i]} categoryRating={this.state.ratings.length === 0 ? ratings[i].ranking : this.state.ratings[i].rating} handleChange={this.handleChange}/>
                             </div>
                         )
-                    }
-                    category = keys.next()
+                    } 
                 }
             }
         }

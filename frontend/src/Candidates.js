@@ -18,7 +18,26 @@ class Candidates extends Component {
     state = {candidates: [], categories: []}
     
     componentDidMount() {
-        this.setState({
+        fetch('/api/candidates')
+        .then(res => res.json())
+        .then(candidates => {
+        	//this.setState({candidates: candidates})
+            
+            fetch('/api/categories')
+            .then(res => res.json())
+            .then(categories => {
+            	this.setState({candidates: candidates, categories: categories})
+            });
+        });
+        
+        /*fetch('/api/categories')
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        	this.setState({categories: res})
+        });*/
+        
+        /*this.setState({
             candidates: [
                 {id: 0, name: "Jack Proudfoot", age: 45, position: "President", party: "Democrat", picture: "./img/mauriciofunes.png", approval: 4, ratings: [{category: 0, ranking: 4}, {category: 1, ranking: 3}, {category: 2, ranking: 1}]},
                 {id: 1, name: "Eddy Lin", age: 45, position: "Senator", party: "Republican", picture: "./img/mauriciofunes.png", approval: 3, ratings: [{category: 0, ranking: 5}, {category: 1, ranking: 1}, {category: 2, ranking: 3}]},
@@ -30,7 +49,7 @@ class Candidates extends Component {
                 {id: 2, category: "Environmentalism"}
             ]
     
-        });
+        });*/
         
     }
     
@@ -42,7 +61,7 @@ class Candidates extends Component {
             var candidateRankings = undefined;
             
             if (this.props.user !== undefined) {
-                candidateRankings = this.props.user.ratings.find(obj => obj.candidate === candidate.id);
+                candidateRankings = this.props.user.ratings.find(obj => obj.candidate === candidate._id);
             }
             
             candidates.push(<Grid item key={i}><Candidate data={candidate} categories={this.state.categories} user={this.props.user} userRatings={candidateRankings}/></Grid>);

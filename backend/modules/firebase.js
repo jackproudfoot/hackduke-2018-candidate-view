@@ -1,5 +1,5 @@
 const admin = require('firebase');
-var serviceAccount = require('./../hackduke-oxfam-firebase-adminsdk-35irp-bb1cffe294');
+var serviceAccount = require('./../hackduke-oxfam-864fb7b13bf6.json');
 
 admin.initializeApp({
     apiKey: "AIzaSyAbM09tL_4whOMx2bQvvhx9a858OqN6SHo",

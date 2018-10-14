@@ -6,23 +6,22 @@ var mongoose = require('mongoose')
 var db = require('./../modules/firebase.js').db;
 
 router.get('/', function(req, res, next) {
-    var Candidate = mongoose.model('Candidate');
+    var Category = mongoose.model('Category');
     
-    Candidate.find({}, function(err, candidates) {
+    Category.find({}, function(err, categories) {
         if (err) return console.error(err);
         
-        res.json(candidates)
+        res.json(categories)
     })
 });
 
 router.get('/:id', function(req, res, next) {
-    var Candidate = mongoose.model('Candidate');
+    var Category = mongoose.model('Category');
     
-    
-    Candidate.findById(req.params.id, function(err, candidate) {
+    Category.findById(req.params.id, function(err, category) {
         if (err) return console.error(err);
         
-        res.json(candidate)
+        res.json(category)
     })
 });
 

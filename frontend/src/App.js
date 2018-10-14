@@ -6,28 +6,27 @@ class App extends Component {
     state = {user: undefined}
     
     responseFacebook = (user) => {
-        console.log(user);
-        
-        const data = new FormData();
-        
-        data.append('token', user.accessToken);
         fetch(('/api/auth'), {
             method: "POST",
-            body: data
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({accessToken: user.accessToken})
         })
         .then(res => res.json())
         .then(res => {
-        	console.log(res)
+        	this.setState({user: res})
         });
         
         
-        var tempdata = {
+        /*var tempdata = {
             ratings: [
                 {candidate: 0, ratings: [{category: 0, rating: 4}, {category: 1, rating: 2}, {category: 2, rating: 4}]},
                 {candidate: 2, ratings: [{category: 0, rating: 3}, {category: 1, rating: 1}, {category: 2, rating: 2}]}
             ]
-        }
-        this.setState({user: tempdata})
+        }*/
+        
     }
   
   render() {  
