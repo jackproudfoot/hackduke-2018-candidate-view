@@ -12,6 +12,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 
+
+import Radio from '@material-ui/core/Radio';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -51,7 +53,9 @@ class Candidate extends Component {
     state = {
         open: false,
         rating: false,
-        userRating: 0
+        userRating: 0,
+        ratings: [],
+        loadedRatings: false
     }
     
     
@@ -80,11 +84,18 @@ class Candidate extends Component {
         this.setState({rating: false})
     }
     
+    componentDidUpdate() {
+        if (!this.state.loadedRatings && this.props.userRatings !== undefined) {
+            this.setState({loadedRatings: true, ratings: this.props.userRatings.ratings})
+        }
+    }
+    
     render() {
         
+        //Calculate Candidate Rating
         var candidateRanking = undefined;
         if (this.props.user !== undefined) {
-            var candidateRankings = this.props.user.ratings.find(obj => obj.candidate === this.props.data.id)
+            var candidateRankings = this.props.userRatings;
             
             //If the user has ranked the candidate
             if (candidateRankings !== undefined) {
@@ -99,13 +110,6 @@ class Candidate extends Component {
             }
         }
             
-        
-        /*if (this.props.user !== undefined) {
-            var candidateRanking = this.props.user.ratings[this.props.data[0]]
-            for (var i = 0; i < candidateRanking.length; i++) {
-                console.log(i)
-            }
-        }*/
         
         var overallRatingColor = "#" + this.calculateRatingColor(this.props.data.approval);
         var userRatingColor = "#" + this.calculateRatingColor(this.state.userRating !== undefined ? this.state.userRating : 0);
@@ -139,17 +143,40 @@ class Candidate extends Component {
                         </div>
                     )
                     
-                    userRatingScales.push(
-                        <div key={category.value}>
-                            <Typography className={this.props.classes.bartitle} variant="body2">{categoryName}</Typography>
-                            <LinearProgress variant="determinate" value={this.props.data.ratings[category.value].ranking / .05} className={this.props.classes.bar}/>
-                        </div>
-                    )
+                    if (this.state.ratings.length > 0) {
+                        userRatingScales.push(
+                            <div key={category.value}>
+                                <Typography className={this.props.classes.bartitle} variant="body2">{categoryName}</Typography>
+                                
+                                <Grid container justify="center">
+                                    <Grid item xs={2}>
+                                        <div style={{fontSize: 10}}>Very Bad</div>
+                                        <Radio checked={category.value === 1} value={"1"} />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <div style={{fontSize: 10}}>Bad</div>
+                                        <Radio checked={category.value === 2} value={"2"} />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <div style={{fontSize: 10}}>Moderate</div>
+                                        <Radio checked={category.value === 3} value={"3"} />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <div style={{fontSize: 10}}>Good</div>
+                                        <Radio checked={category.value === 4} value={"4"} />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <div style={{fontSize: 10}}>Very Good</div>
+                                        <Radio checked={category.value === 5} value={"5"} />
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        )
+                    }
                     category = keys.next()
                 }
             }
         }
-        
        
         return (
             <div>
@@ -221,6 +248,7 @@ class Candidate extends Component {
                                   (userRatingScales.length > 0 ? (
                                       <div>
                                           <Typography variant="subtitle1">Categories</Typography>
+                                          
                                           {userRatingScales}
                                           
                                         <br />

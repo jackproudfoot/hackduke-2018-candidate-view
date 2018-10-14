@@ -39,7 +39,13 @@ class Candidates extends Component {
         var candidates = []
         for (var i = 0; i < this.state.candidates.length; i++) {
             var candidate = this.state.candidates[i];
-            candidates.push(<Grid item key={i}><Candidate data={candidate} categories={this.state.categories} user={this.props.user}/></Grid>);
+            var candidateRankings = undefined;
+            
+            if (this.props.user !== undefined) {
+                candidateRankings = this.props.user.ratings.find(obj => obj.candidate === candidate.id);
+            }
+            
+            candidates.push(<Grid item key={i}><Candidate data={candidate} categories={this.state.categories} user={this.props.user} userRatings={candidateRankings}/></Grid>);
         }
         
         return (
